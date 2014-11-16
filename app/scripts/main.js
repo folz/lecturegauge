@@ -19,24 +19,9 @@ var CommentFeedbackPage = React.createClass({
                 </div>
 
                 <div className="row">
-                    <div className="col col-xs-4">
-                        <button type="button" className="btn btn-block btn-success understand-button">
-                            <span className="glyphicon glyphicon-ok-sign" aria-hidden="true"></span>
-                            <span className="sr-only">I understand.</span>
-                        </button>
-                    </div>
-                    <div className="col col-xs-4">
-                        <button type="button" className="btn btn-block btn-warning understand-button">
-                            <span className="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>
-                            <span className="sr-only">I sort of understand.</span>
-                        </button>
-                    </div>
-                    <div className="col col-xs-4">
-                        <button type="button" className="btn btn-block btn-danger understand-button">
-                            <span className="glyphicon glyphicon-remove-sign" aria-hidden="true"></span>
-                            <span className="sr-only">I don't understand.</span>
-                        </button>
-                    </div>
+                    <UnderStandButton commentType={'SUCCESS'} />
+                    <UnderStandButton commentType={'WARNING'} />
+                    <UnderStandButton commentType={'FAILURE'} />
                 </div>
 
                 <div className="row comment-row">
@@ -48,6 +33,49 @@ var CommentFeedbackPage = React.createClass({
                 </div>
             </div>
         );
+    }
+});
+
+
+var UnderstandButton = React.createClass({
+    render: function() {
+        var cx = React.addons.classSet;
+
+        var classes1 = cx({
+            'col': true;
+            'col-xs-4': true;
+        });
+
+        var classes2 = cx({
+            'btn': true;
+            'btn-block': true;
+            'btn-success': this.props.commentType === 'SUCCESS';
+            'btn-warning': this.props.commentType === 'WARNING';
+            'btn-failure': this.props.commentType === 'FAILURE';
+            'understand-button': true;
+        });
+
+        var classes3 = cx({
+            'glyphicon': true;
+            'glyphicon-ok-sign': this.props.commentType === 'SUCCESS';
+            'glyphicon-minus-sign': this.props.commentType === 'WARNING';
+            'glyphicon-remove-sign': this.props.commentType === 'FAILURE';
+        });
+
+        var comment = cx {{
+            "I understand.": this.props.commentType === 'SUCCESS';
+            "I sort of understand.": this.props.commentType === 'WARNING';
+            "I don't understand.": this.props.commentType === 'FAILURE';
+        }};
+
+        return (
+            <div className="{classes1}">
+            <button type="button" className={classes2}>
+            <span className={classes3} aria-hidden="true"></span>
+            <span className="sr-only">{this.props.comment}</span>
+            </button>
+            </div>
+            );
     }
 });
 
@@ -91,9 +119,9 @@ var CommentListPage = React.createClass({
                     </div>
 
                     <Comment text={"This is a comment"} timestamp={"3:22"} commentType={'SUCCESS'} />
-                    <Comment text={"This is another comment"} timestamp={"3:22"} commentType={'WARNING'} />
-                    <Comment text={"This is a 3rd comment"} timestamp={"3:22"} commentType={'FAILURE'} />
-                    <Comment text={"This is a comment"} timestamp={"3:22"} commentType={'SUCCESS'} />
+                    <Comment text={"This is another comment"} timestamp={"3:42"} commentType={'WARNING'} />
+                    <Comment text={"This is a 3rd comment"} timestamp={"5:22"} commentType={'FAILURE'} />
+                    <Comment text={"This is a comment"} timestamp={"3:28"} commentType={'SUCCESS'} />
                 </div>
             </div>
         );

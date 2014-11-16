@@ -5,8 +5,8 @@ var firebaseApp = "https://lecturegauge.firebaseio.com/";
 var cx = React.addons.classSet;
 var Animate = React.addons.CSSTransitionGroup;
 
-var lectureStart = moment("2014-11-16T11:00:00-05:00");
-var lectureEnd = moment("2014-11-16T12:15:00-05:00");
+var lectureStart = moment("2014-11-16T12:30:00-05:00");
+var lectureEnd = moment("2014-11-16T14:00:00-05:00");
 
 var CommentFeedbackPage = React.createClass({
     handleClick: function(evt) {
@@ -158,7 +158,7 @@ var CommentBarGraph = React.createClass({
   //     Highcharts.theme = {
   //  colors: ['#058DC7', '#50B432', '#ED561B', '#DDDF00', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4']},
             title: {
-                text: "Amount of Students Commenting in 5 Minute Intervals"
+                text: "Students Comments per 5 Minute Intervals"
             },
             xAxis: {
                 categories: []

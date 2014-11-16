@@ -20,19 +20,19 @@ var CommentFeedbackPage = React.createClass({
             <div className="row">
                 <div className="col col-xs-4">
                     <button type="button" className="btn btn-block btn-success understand-button">
-                        <span className="glyphicon glyphicon-ok-sign" aria-hidden="true"></span>
+                        <span className="glyphicon glyphicon-ok-sign glyphiconDec" aria-hidden="true"></span>
                         <span className="sr-only">I understand.</span>
                     </button>
                 </div>
                 <div className="col col-xs-4">
                     <button type="button" className="btn btn-block btn-warning understand-button">
-                        <span className="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>
+                        <span className="glyphicon glyphicon-minus-sign glyphiconDec" aria-hidden="true"></span>
                         <span className="sr-only">I sort of understand.</span>
                     </button>
                 </div>
                 <div className="col col-xs-4">
                     <button type="button" className="btn btn-block btn-danger understand-button">
-                        <span className="glyphicon glyphicon-remove-sign" aria-hidden="true"></span>
+                        <span className="glyphicon glyphicon-remove-sign glyphiconDec" aria-hidden="true"></span>
                         <span className="sr-only">I don't understand.</span>
                     </button>
                 </div>

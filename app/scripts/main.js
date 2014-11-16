@@ -1,12 +1,17 @@
 /* global React */
 
 var firebaseApp = "https://lecturegauge.firebaseio.com/";
+
+var cx = React.addons.classSet;
 var Animate = React.addons.CSSTransitionGroup;
 
 var CommentFeedbackPage = React.createClass({
     handleClick: function(evt) {
-        console.log("Updating commentType to", evt.target.value);
-        this.setState({'commentType': evt.target.value});
+        if (evt.target.value === this.state.commentType) {
+            this.setState({'commentType': null});
+        } else {
+            this.setState({'commentType': evt.target.value});
+        }
     },
 
     handleSubmit: function(evt){
@@ -34,6 +39,18 @@ var CommentFeedbackPage = React.createClass({
     },
 
     render: function() {
+        var placeholder = cx({
+            "Comment or ask a question": this.state.commentType === 'SUCCESS',
+            "What do you need clarified?": this.state.commentType === 'WARNING',
+            "What do you need help understanding": this.state.commentType === 'FAILURE'
+        });
+
+        var actionText= cx({
+            "Make a comment": this.state.commentType === 'SUCCESS',
+            "Ask for clarification": this.state.commentType === 'WARNING',
+            "Ask for help": this.state.commentType === "FAILURE"
+        });
+
         var commentBox;
         if (this.state.commentType !== null) {
             commentBox = (
@@ -42,8 +59,8 @@ var CommentFeedbackPage = React.createClass({
                     	<p><u>Feedback Box</u></p>
                         <p></p>
                         <form className="form-horizontal" role="form" onSubmit={this.handleSubmit}>
-                            <textarea className="form-control" rows="3" placeholder="Comment or ask a question..."></textarea>
-                            <button type="submit" className="btn btn-block btn-primary">Submit</button>
+                            <textarea className="form-control" rows="3" placeholder={placeholder}></textarea>
+                            <button type="submit" className="btn btn-block btn-primary">{actionText}</button>
                         </form>
                     </div>
                 </div>
@@ -91,8 +108,6 @@ var Comment = React.createClass({
         }
     },
     render: function() {
-        var cx = React.addons.classSet;
-
         var classes = cx({
             "col": true,
             "col-xs-1": true,
@@ -123,7 +138,7 @@ var Comment = React.createClass({
                     <p className="scrollz">{this.props.text}</p>
                     <p className="timestamp">{this.props.timestamp}</p>
                 </div>
-               
+
             </div>
         );
     }

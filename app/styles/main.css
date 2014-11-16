@@ -33,6 +33,34 @@ body {
     }
 }
 
+/* Animation transitions */
+.scrollin-enter {
+    max-height: 1px;
+    opacity: 0.01;
+    overflow: hidden;
+    transition: max-height .5s ease-in, opacity .25s ease-in;
+}
+
+.scrollin-enter.scrollin-enter-active {
+    max-height: 9999px;
+    opacity: 1;
+    overflow: auto;
+}
+
+.scrollin-leave {
+    max-height: 9999px;
+    opacity: 1;
+    overflow: hidden;
+    transition: max-height .5s ease-in, opacity .25s ease-in;
+}
+
+.scrollin-leave.scrollin-leave-active {
+    max-height: 1px;
+    opacity: 0.01;
+    overflow: auto;
+}
+
+
 .understand-button {
     height: 100px;
 }
@@ -45,12 +73,6 @@ body {
 	margin-top: 20px;
 
 	}
-
-.title{
-
-	font-family: "Times New Roman", serif;
-
-}
 
 .feedback-row {
 	margin-top: 10px;
@@ -69,29 +91,37 @@ body {
 }
 
 .green-block {
-	background-color: green;
-	height: 100px;
+	background-color: #5cb85c;
+    border-color: #4cae4c;
+	height: 80px;
 	margin-left: 20px;
+    border-radius: 20px;
 }
 
 .yellow-block {
-	background-color: yellow;
-	height: 100px;
+	background-color: #ed9c28;
+    border-color: #d58512;
+	height: 80px;
 	margin-left: 20px;
+    border-radius: 20px;
 }
 
 
 .red-block {
-	background-color: red;
-	height: 100px;
+	background-color: #d2322d;
+    border-color: #ac2925;
+	height: 80px;
 	margin-left: 20px;
+    border-radius: 20px;
 }
 
 
 .timestamp {
-	position:absolute;
+	position:static;
 	left: 300px;
-	top: 85px;
+	top: 60px;
+    font-size: 10px;
+    float: right;
 }
 
 .glyphiconDec{
@@ -100,4 +130,41 @@ body {
 
 button.btn .glyphicon {
     pointer-events: none;
+}
+
+.scrollz{
+    height: 80px;
+    overflow-y: scroll;
+}
+
+.boxder{
+    margin-left: 30px;
+    border: 3px dotted #55B3FF;
+    border-radius: 25px;
+}
+
+.spacer{
+    margin-bottom: 50px;
+}
+
+.spacerProg{
+    margin-top:20px;
+    margin-bottom: 30px
+}
+
+.spacerTime{
+    margin-top:20px;
+}
+
+.progbar > svg {
+    display: block;
+    width: 400%;
+}
+.upvote{
+    margin: 0px auto;
+    text-align: center;
+}
+
+.downvote{
+    margin: 0px auto;
 }

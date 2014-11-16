@@ -2,10 +2,16 @@
 
 var firebaseApp = "https://lecturegauge.firebaseio.com/";
 
+var cx = React.addons.classSet;
+var Animate = React.addons.CSSTransitionGroup;
+
 var CommentFeedbackPage = React.createClass({
     handleClick: function(evt) {
-        console.log("Updating commentType to", evt.target.value);
-        this.setState({'commentType': evt.target.value});
+        if (evt.target.value === this.state.commentType) {
+            this.setState({'commentType': null});
+        } else {
+            this.setState({'commentType': evt.target.value});
+        }
     },
 
     handleSubmit: function(evt){
@@ -14,10 +20,12 @@ var CommentFeedbackPage = React.createClass({
         var comment = {
             'commentType': this.state.commentType,
             'text': $("textarea", evt.target).val(),
-            'timestamp': moment().format()
+            'timestamp': moment().format(),
+            'vote': 0
         };
 
         this.props.handleCommentSubmit(comment);
+
 
         this.setState(this.getInitialState());
     },
@@ -31,16 +39,28 @@ var CommentFeedbackPage = React.createClass({
     },
 
     render: function() {
+        var placeholder = cx({
+            "Comment or ask a question": this.state.commentType === 'SUCCESS',
+            "What do you need clarified?": this.state.commentType === 'WARNING',
+            "What do you need help understanding": this.state.commentType === 'FAILURE'
+        });
+
+        var actionText= cx({
+            "Make a comment": this.state.commentType === 'SUCCESS',
+            "Ask for clarification": this.state.commentType === 'WARNING',
+            "Ask for help": this.state.commentType === "FAILURE"
+        });
+
         var commentBox;
         if (this.state.commentType !== null) {
             commentBox = (
                 <div className="row comment-row">
                     <div className="col-xs-12">
-                        {this.state.commentType}
-
+                    	<p><u>Feedback Box</u></p>
+                        <p></p>
                         <form className="form-horizontal" role="form" onSubmit={this.handleSubmit}>
-                            <textarea className="form-control" rows="3" placeholder="Enter a comment!"></textarea>
-                            <button type="submit" className="btn btn-block btn-primary">Submit</button>
+                            <textarea className="form-control" rows="3" placeholder={placeholder}></textarea>
+                            <button type="submit" className="btn btn-block btn-primary">{actionText}</button>
                         </form>
                     </div>
                 </div>
@@ -49,7 +69,7 @@ var CommentFeedbackPage = React.createClass({
 
         return (
         <div>
-            <div className="row">
+            <div className="row spacer">
                 <div className="col col-xs-4">
                     <button type="button" className="btn btn-block btn-success understand-button" onClick={this.handleClick} value="SUCCESS">
                         <span className="glyphicon glyphicon-ok-sign glyphiconDec" aria-hidden="true"></span>
@@ -69,16 +89,25 @@ var CommentFeedbackPage = React.createClass({
                     </button>
                 </div>
             </div>
-            {commentBox}
+            <Animate transitionName="scrollin">
+                {commentBox}
+            </Animate>
         </div>
         );
     }
 });
 
 var Comment = React.createClass({
+	 handleClick: function(evt) {
+        console.log("Upvoted", evt.target.value);
+        if (evt.target.value === 'upvote'){
+        	console.log("String should upvote")
+        }
+        else{
+        	console.log("String should downvote")
+        }
+    },
     render: function() {
-        var cx = React.addons.classSet;
-
         var classes = cx({
             "col": true,
             "col-xs-1": true,
@@ -94,14 +123,22 @@ var Comment = React.createClass({
         });
 
         return (
-            <div className="row feedback-row">
+            <div className="row feedback-row ">
                 <div className={classes}>
+                <button type="button" className="btn btn-primary upvote"  onClick={this.handleClick} value ="upvote">
+                	<span className="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
+            	</button>
+                 <button type="button" className="btn btn-primary downvote" onClick={this.handleClick} value = "downvote">
+                 	<span className="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
+                 </button>
+                 <p> {this.props.vote} </p>
                     <span className="sr-only">{srCommentText}</span>
                 </div>
-                <div className="col col-xs-9">
-                    <p>{this.props.text}</p>
+                <div className="col col-xs-9 boxder">
+                    <p className="scrollz">{this.props.text}</p>
                     <p className="timestamp">{this.props.timestamp}</p>
                 </div>
+
             </div>
         );
     }
@@ -277,7 +314,7 @@ var CommentList = React.createClass({
         var commentNodes = this.props.data.sort(function (a, b) {
             return moment(b.timestamp).unix() - moment(a.timestamp).unix();
         }).map(function(comment, index) {
-            return <Comment key={index} commentType={comment.commentType} text={comment.text} timestamp={comment.timestamp} />
+            return <Comment key={index} commentType={comment.commentType} text={comment.text} vote={comment.vote} timestamp={comment.timestamp} />
         });
 
         return (
@@ -286,6 +323,33 @@ var CommentList = React.createClass({
         </div>
         );
     }
+});
+
+
+var ProgressBarElement = React.createClass({
+
+    componentDidMount: function() {
+
+        var lectureStart = moment("2014-11-16T08:00:00-05:00").unix();
+        var lectureEnd = moment("2014-11-16T10:15:00-05:00").unix();
+
+        var progressBar = new ProgressBar.Line('#progbar', {
+                              color:"#5cb85c",
+                              strokeWidth: 5,
+                              trailColor: "#f4f4f4",
+                              duration: (lectureEnd - lectureStart) * 10,
+                              easing: "easeIn",
+                            });
+
+        progressBar.animate(1);
+    },
+
+    render: function() {
+        return (
+            <div id="progbar"></div>
+            );
+    }
+
 });
 
 var App = React.createClass({
@@ -310,19 +374,15 @@ var App = React.createClass({
     render: function() {
         return (
             <div className="container">
-                <div className="row">
+                <div className="row spacerTime">
                     <div className="col col-xs-12 current-time">
-                        <p className="text-center">11:23 a.m.</p>
+                        <p className="text-center">11:23</p>
                     </div>
                 </div>
 
                 <div className="row">
-                    <div className="col col-xs-12">
-                        <div className="progress">
-                            <div className="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style={{"width": "60%"}}>
-                                <span className="sr-only">60% Complete</span>
-                            </div>
-                        </div>
+                    <div className="col col-xs-12 spacerProg">
+                        <ProgressBarElement />
                     </div>
                 </div>
 

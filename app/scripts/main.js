@@ -153,6 +153,8 @@ var CommentBarGraph = React.createClass({
                 renderTo: 'comments-graph',
                 type: 'column'
             },
+  //     Highcharts.theme = {
+  //  colors: ['#058DC7', '#50B432', '#ED561B', '#DDDF00', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4']},
             title: {
                 text: "Amount of Students Commenting in 5 Minute Intervals"
             },
@@ -167,7 +169,7 @@ var CommentBarGraph = React.createClass({
                   enabled: true,
                     style: {
                       fontWeight: 'bold',
-                      color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
+                      color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray',
                   }
                 },
             },
@@ -185,15 +187,18 @@ var CommentBarGraph = React.createClass({
             },
             series: [{
                 name: "Understand",
-                data: []
+                data: [],
+                color: '#47a447'
             },
             {
                 name: "Kind of Understand",
-                data:[]
+                data:[],
+                color: '#ed9c28'
             },
             {
                 name: "Don't Understand",
-                data:[]
+                data:[],
+                color: '#d9534f'
             }
             ]
         });

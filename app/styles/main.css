@@ -37,10 +37,18 @@ body {
     height: 100px;
 }
 
+.understand-comment {
+	height: 100px;
+}
+
 .comment-row{
 	margin-top: 20px;
 
 	}
+
+.feedback-row{
+	margin-top: 10px;
+}
 
 .title{
 

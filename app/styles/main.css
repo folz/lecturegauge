@@ -180,3 +180,10 @@ button.btn .glyphicon {
 .btn.downvote {
     border-bottom: none;
 }
+
+.vote-count {
+    position: absolute;
+    top: 29px;
+    right: -18px;
+    font-weight: bold;
+}

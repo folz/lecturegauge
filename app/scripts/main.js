@@ -21,11 +21,11 @@ var CommentFeedbackPage = React.createClass({
             'commentType': this.state.commentType,
             'text': $("textarea", evt.target).val(),
             'timestamp': moment().format(),
-            'vote': 0
+            'vote': 0,
+            'stamp': ''
         };
 
         this.props.handleCommentSubmit(comment);
-
 
         this.setState(this.getInitialState());
     },
@@ -97,14 +97,15 @@ var CommentFeedbackPage = React.createClass({
 
 var Comment = React.createClass({
 	 handleClick: function(evt) {
-        console.log("Upvoted", evt.target.value);
-        if (evt.target.value === 'upvote'){
-        	console.log("String should upvote")
-        }
-        else{
-        	console.log("String should downvote")
-        }
-    },
+         console.log(this);
+         comment = this.props.data;
+         if (~evt.target.className.indexOf('upvote')){
+             comment.vote++;
+         } else {
+             comment.vote--;
+         }
+         this.props.handleUpvote(comment);
+     },
     render: function() {
         var classes = cx({
             "col": true,
@@ -123,14 +124,14 @@ var Comment = React.createClass({
         return (
             <div className="row feedback-row">
                 <div className={classes}>
-                <button type="button" className="btn btn-default upvote"  onClick={this.handleClick} value ="upvote">
+                <button type="button" className="btn btn-default upvote"  onClick={this.handleClick} value={this.props.data._id}>
                 	<span className="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
             	</button>
-                 <button type="button" className="btn btn-default downvote" onClick={this.handleClick} value = "downvote">
+                 <button type="button" className="btn btn-default downvote" onClick={this.handleClick} value={this.props.data._id}>
                  	<span className="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
                  </button>
-                 <p> {this.props.data.vote} </p>
-                    <span className="sr-only">{srCommentText}</span>
+                 <p className="vote-count">{this.props.data.vote}</p>
+                 <span className="sr-only">{srCommentText}</span>
                 </div>
                 <div className="col col-xs-9 boxder">
                     <p className="scrollz">{this.props.data.text}</p>
@@ -312,8 +313,8 @@ var CommentList = React.createClass({
         var commentNodes = this.props.data.sort(function (a, b) {
             return moment(b.timestamp).unix() - moment(a.timestamp).unix();
         }).map(function(comment, index) {
-            return <Comment key={index} data={comment} />
-        });
+            return <Comment handleUpvote={this.props.handleUpvote} key={index} idx={index} data={comment} />
+        }.bind(this)    );
 
         return (
         <div>
@@ -358,7 +359,28 @@ var App = React.createClass({
         comments.push(comment);
         this.setState(comments);
 
-        this.firebaseRefs["data"].push(comment);
+        var commentRef = this.firebaseRefs["data"].push(comment);
+        var commentID = commentRef.key();
+
+        comment['stamp'] = commentID;
+        commentRef.update(comment);
+    },
+
+    handleUpvote: function(comment) {
+        console.log(comment);
+
+        var commentRef = this.firebaseRefs["data"].child(comment.stamp);
+        commentRef.update({
+            'vote': comment.vote
+        });
+
+        var comments = this.state.data;
+        comments.forEach(function(oldComment) {
+            if (oldComment.stamp === comment.stamp) {
+                oldComment.vote = comment.vote;
+            }
+        })
+        this.setState(comments);
     },
 
     getInitialState: function() {
@@ -370,6 +392,8 @@ var App = React.createClass({
     },
 
     render: function() {
+        console.table(this.state.data);
+
         return (
             <div className="container">
                 <div className="row spacerTime">
@@ -386,7 +410,7 @@ var App = React.createClass({
 
                 <CommentFeedbackPage handleCommentSubmit={this.handleCommentSubmit} />
                 <CommentBarGraph data={this.state.data} />
-                <CommentList data={this.state.data} />
+                <CommentList handleUpvote={this.handleUpvote} data={this.state.data} />
             </div>
         );
     }

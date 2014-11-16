@@ -17,6 +17,7 @@ var CommentFeedbackPage = React.createClass({
                         </div>
                     </div>
                 </div>
+
                 <div className="row">
                     <div className="col col-xs-4">
                         <button type="button" className="btn btn-block btn-success understand-button">
@@ -79,33 +80,31 @@ var Comment = React.createClass({
 var CommentListPage = React.createClass({
     render: function() {
         return (
-        <div>
-            <div className="container">
-                <div className="row">
-                    <div className="col col-xs-12 current-time">
-                        <h4>
-                            <p className="text-center">11:23 a.m.</p>
-                        </h4>
+            <div>
+                <div className="container">
+                    <div className="row">
+                        <div className="col col-xs-12 current-time">
+                            <h4>
+                                <p className="text-center">11:23 a.m.</p>
+                            </h4>
+                        </div>
                     </div>
-                </div>
 
-                <Comment text={"This is a comment"} timestamp={"3:22"} commentType={'SUCCESS'} />
-                <Comment text={"This is another comment"} timestamp={"3:22"} commentType={'WARNING'} />
-                <Comment text={"This is a 3rd comment"} timestamp={"3:22"} commentType={'FAILURE'} />
-                <Comment text={"This is a comment"} timestamp={"3:22"} commentType={'SUCCESS'} />
+                    <Comment text={"This is a comment"} timestamp={"3:22"} commentType={'SUCCESS'} />
+                    <Comment text={"This is another comment"} timestamp={"3:22"} commentType={'WARNING'} />
+                    <Comment text={"This is a 3rd comment"} timestamp={"3:22"} commentType={'FAILURE'} />
+                    <Comment text={"This is a comment"} timestamp={"3:22"} commentType={'SUCCESS'} />
+                </div>
             </div>
-        </div>
         );
     }
 });
-
 
 var App = React.createClass({
     render: function() {
         return (
             <div>
                 <CommentFeedbackPage />
-                <CommentListPage />
                 <p>Hello, React!</p>
             </div>
         );
@@ -119,7 +118,7 @@ $(function() {
     );
 
 
-    // var commentsList = new Firebase("https://lecturegauge.firebaseio.com/").child("commentsList");
+    var commentsList = new Firebase("https://lecturegauge.firebaseio.com/").child("commentsList");
 
     var getCurrentTime = function() {
         var currentdate = new Date();

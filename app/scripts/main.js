@@ -111,19 +111,19 @@ var Comment = React.createClass({
         var classes = cx({
             "col": true,
             "col-xs-1": true,
-            "green-block": this.props.commentType === 'SUCCESS',
-            "yellow-block": this.props.commentType === 'WARNING',
-            "red-block": this.props.commentType === 'FAILURE'
+            "green-block": this.props.data.commentType === 'SUCCESS',
+            "yellow-block": this.props.data.commentType === 'WARNING',
+            "red-block": this.props.data.commentType === 'FAILURE'
         });
 
         var srCommentText = cx({
-            "I understand.": this.props.commentType === 'SUCCESS',
-            "I'm a little confused.": this.props.commentType === 'WARNING',
-            "I don't understand.": this.props.commentType === 'FAILURE'
+            "I understand.": this.props.data.commentType === 'SUCCESS',
+            "I'm a little confused.": this.props.data.commentType === 'WARNING',
+            "I don't understand.": this.props.data.commentType === 'FAILURE'
         });
 
         return (
-            <div className="row feedback-row ">
+            <div className="row feedback-row">
                 <div className={classes}>
                 <button type="button" className="btn btn-default upvote"  onClick={this.handleClick} value ="upvote">
                 	<span className="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
@@ -131,12 +131,12 @@ var Comment = React.createClass({
                  <button type="button" className="btn btn-default downvote" onClick={this.handleClick} value = "downvote">
                  	<span className="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
                  </button>
-                 <p> {this.props.vote} </p>
+                 <p> {this.props.data.vote} </p>
                     <span className="sr-only">{srCommentText}</span>
                 </div>
                 <div className="col col-xs-9 boxder">
-                    <p className="scrollz">{this.props.text}</p>
-                    <p className="timestamp">{this.props.timestamp}</p>
+                    <p className="scrollz">{this.props.data.text}</p>
+                    <p className="timestamp">{this.props.data.timestamp}</p>
                 </div>
 
             </div>
@@ -314,7 +314,7 @@ var CommentList = React.createClass({
         var commentNodes = this.props.data.sort(function (a, b) {
             return moment(b.timestamp).unix() - moment(a.timestamp).unix();
         }).map(function(comment, index) {
-            return <Comment key={index} commentType={comment.commentType} text={comment.text} vote={comment.vote} timestamp={comment.timestamp} />
+            return <Comment key={index} data={comment} />
         });
 
         return (

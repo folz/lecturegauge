@@ -5,6 +5,9 @@ var firebaseApp = "https://lecturegauge.firebaseio.com/";
 var cx = React.addons.classSet;
 var Animate = React.addons.CSSTransitionGroup;
 
+var lectureStart = moment("2014-11-16T11:00:00-05:00");
+var lectureEnd = moment("2014-11-16T12:15:00-05:00");
+
 var CommentFeedbackPage = React.createClass({
     handleClick: function(evt) {
         if (evt.target.value === this.state.commentType) {
@@ -204,9 +207,6 @@ var CommentBarGraph = React.createClass({
     },
 
     componentDidUpdate: function() {
-        var lectureStart = moment("2014-11-16T08:00:00-05:00");
-        var lectureEnd = moment("2014-11-16T09:30:00-05:00");
-
         var incrementsSinceStart = Math.floor(lectureEnd.diff(lectureStart, 'm') / 5);
         var successCount = {};
         var warningCount = {};
@@ -333,9 +333,7 @@ var CommentList = React.createClass({
 var ProgressBarElement = React.createClass({
 
     componentDidMount: function() {
-
-        var lectureStart = moment("2014-11-16T08:00:00-05:00").unix();
-        var lectureEnd = moment("2014-11-16T10:15:00-05:00").unix();
+        var now = moment();
 
         var progressBar = new ProgressBar.Line('#progbar', {
                               color:"#5cb85c",
@@ -403,13 +401,7 @@ var App = React.createClass({
             <div className="container">
                 <div className="row spacerTime">
                     <div className="col col-xs-12 current-time">
-                        <p className="text-center">11:23</p>
-                    </div>
-                </div>
-
-                <div className="row">
-                    <div className="col col-xs-12 spacerProg">
-                        <ProgressBarElement />
+                        <p className="text-center"></p>
                     </div>
                 </div>
 

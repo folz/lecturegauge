@@ -65,6 +65,7 @@ body {
 .navbar.navbar-default .navbar-nav > li > a, .navbar.navbar-default .navbar-brand{
     color:white;
     font-family: "Georgia", serif;
+    font-size: 14px;
 }
 
 .green-block {
@@ -91,4 +92,12 @@ body {
 	position:absolute;
 	left: 300px;
 	top: 85px;
+}
+
+.glyphiconDec{
+    font-size:40px;
+}
+
+button.btn .glyphicon {
+    pointer-events: none;
 }

@@ -165,6 +165,7 @@ var CommentBarGraph = React.createClass({
                 }
             },
             series: [{
+                showInLegend: false,
                 name: null,
                 data: []
             }]
@@ -236,6 +237,33 @@ var CommentList = React.createClass({
     }
 });
 
+
+var ProgressBarElement = React.createClass({
+
+    componentDidMount: function() {
+
+        var lectureStart = moment("2014-11-16T08:00:00-05:00").unix();
+        var lectureEnd = moment("2014-11-16T10:15:00-05:00").unix();
+
+        var progressBar = new ProgressBar.Line('#progbar', {
+                              color:"#5cb85c",
+                              strokeWidth: 5,
+                              trailColor: "#f4f4f4",
+                              duration: (lectureEnd - lectureStart) * 10,
+                              easing: "easeIn",
+                            });
+
+        progressBar.animate(1);
+    },
+
+    render: function() {
+        return (
+            <div id="progbar"></div>
+            );
+    }
+
+});
+
 var App = React.createClass({
     mixins: [ReactFireMixin],
 
@@ -260,17 +288,13 @@ var App = React.createClass({
             <div className="container">
                 <div className="row spacerTime">
                     <div className="col col-xs-12 current-time">
-                        <p className="text-center">11:23 a.m.</p>
+                        <p className="text-center">11:23</p>
                     </div>
                 </div>
 
-                <div className="row">
+                <div className="row">                       
                     <div className="col col-xs-12 spacerProg">
-                        <div className="progress">
-                            <div className="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style={{"width": "60%"}}>
-                                <span className="sr-only">60% Complete</span>
-                            </div>
-                        </div>
+                        <ProgressBarElement />
                     </div>
                 </div>
 

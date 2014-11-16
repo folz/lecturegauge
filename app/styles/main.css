@@ -156,6 +156,10 @@ button.btn .glyphicon {
     margin-top:20px;
 }
 
+.progbar > svg {
+    display: block;
+    width: 400%;
+}
 .upvote{
     margin: 0px auto;
     text-align: center;

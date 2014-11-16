@@ -117,7 +117,7 @@ var CommentBarGraph = React.createClass({
                 type: 'column'
             },
             title: {
-                text: null
+                text: "Amount of Students Commenting in 5 Minute Intervals"
             },
             xAxis: {
                 categories: []
@@ -125,12 +125,40 @@ var CommentBarGraph = React.createClass({
             yAxis: {
                 title: {
                     text: 'Comments'
+                },
+                stackLabels: {
+                  enabled: true,
+                    style: {
+                      fontWeight: 'bold',
+                      color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
+                  }
+                },
+            },
+            plotOptions: {
+                column: {
+                  stacking: 'normal',
+                  dataLabels: {
+                    enabled: true,
+                    color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white',
+                    style: {
+                        textShadow: '0 0 3px black, 0 0 3px black'
+                    }
+                  }
                 }
             },
             series: [{
-                name: null,
+                name: "Understand",
                 data: []
-            }]
+            },
+            {
+                name: "Kind of Understand",
+                data:[]
+            },
+            {
+                name: "Don't Understand",
+                data:[]
+            }
+            ]
         });
     },
 
@@ -139,9 +167,13 @@ var CommentBarGraph = React.createClass({
         var lectureEnd = moment("2014-11-16T09:30:00-05:00");
 
         var incrementsSinceStart = Math.floor(lectureEnd.diff(lectureStart, 'm') / 5);
-        var incrementCount = {}
+        var successCount = {};
+        var warningCount = {};
+        var failureCount = {};
         for (var i = 0; i < incrementsSinceStart; i++) {
-            incrementCount[i] = 0;
+            successCount[i] = 0;
+            warningCount[i] = 0;
+            failureCount[i] = 0;
         }
 
         this.props.data.forEach(function(comment) {
@@ -150,29 +182,86 @@ var CommentBarGraph = React.createClass({
                 // Someone commented after the lecture ended
                 return;
             }
+
             var increment = Math.floor(time.diff(lectureStart, 'm') / 5);
-            incrementCount[increment]++;
+            if (comment.commentType === 'SUCCESS') {
+              successCount[increment]++;
+            }else if(comment.commentType === 'WARNING') {
+              warningCount[increment]++;
+            }
+            else {
+              failureCount[increment]++;
+            }
         });
 
-        var incrementBlocks = [];
-        for (var key in incrementCount) {
-            if (incrementCount.hasOwnProperty(key)) {
-                incrementBlocks.push({block: key, count: incrementCount[key]});
+        var successBlocks = [];
+        for (var key in successCount) {
+            if (successCount.hasOwnProperty(key)) {
+                successBlocks.push({block: key, count: successCount[key]});
             }
         }
-        incrementBlocks = incrementBlocks.sort(function(a, b) { return a - b; });
+        var warningBlocks = [];
+        for (var key in warningCount) {
+            if (warningCount.hasOwnProperty(key)) {
+                warningBlocks.push({block: key, count: warningCount[key]});
+            }
+        }
+        var failureBlocks = [];
+        for (var key in failureCount) {
+            if (failureCount.hasOwnProperty(key)) {
+                failureBlocks.push({block: key, count: failureCount[key]});
+            }
+        }
 
-        var sortedBlocks = incrementBlocks.map(function(block) {
+        successBlocks = successBlocks.sort(function(a, b) { return a - b; });
+
+        var sortedSuccessBlocks = successBlocks.map(function(block) {
             return block.key;
         });
 
-        var sortedBlockCount = incrementBlocks.map(function(block) {
+        var sortedSuccessBlockCount = successBlocks.map(function(block) {
             return block.count;
         });
 
+        warningBlocks = warningBlocks.sort(function(a, b) { return a - b; });
+
+        var sortedWarningBlocks = warningBlocks.map(function(block) {
+            return block.key;
+        });
+
+        var sortedWarningBlockCount = warningBlocks.map(function(block) {
+            return block.count;
+        });
+
+        failureBlocks = failureBlocks.sort(function(a, b) { return a - b; });
+
+        var sortedFailureBlocks = failureBlocks.map(function(block) {
+            return block.key;
+        });
+
+        var sortedFailureBlockCount = failureBlocks.map(function(block) {
+            return block.count;
+        });
+
+        //incrementBlocks = incrementBlocks.sort(function(a, b) { return a - b; });
+
+        //var sortedBlocks = incrementBlocks.map(function(block) {
+            //return block.key;
+        //});
+
+        //var sortedBlockCount = incrementBlocks.map(function(block) {
+            //return block.count;
+        //});
+
         if (this.chart) {
-            this.chart.xAxis[0].setCategories(sortedBlocks);
-            this.chart.series[0].setData(sortedBlockCount);
+            this.chart.xAxis[0].setCategories(sortedSuccessBlocks);
+            this.chart.series[0].setData(sortedSuccessBlockCount);
+            //this.chart.xAxis[1].setCategories(sortedWarningBlocks);
+            this.chart.series[1].setData(sortedWarningBlockCount);
+            //this.chart.xAxis[2].setCategories(sortedFailureBlocks);
+            this.chart.series[2].setData(sortedFailureBlockCount);
+          //  this.chart.xAxis[0].setCategories(sortedBlocks);
+          //  this.chart.series[0].setData(sortedBlockCount);
         }
     },
 

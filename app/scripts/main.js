@@ -114,7 +114,7 @@ var CommentBarGraph = React.createClass({
         this.chart = new Highcharts.Chart({
             chart: {
                 renderTo: 'comments-graph',
-                type: 'line'
+                type: 'column'
             },
             title: {
                 text: null
@@ -124,7 +124,7 @@ var CommentBarGraph = React.createClass({
             },
             yAxis: {
                 title: {
-                    text: 'Fruit eaten'
+                    text: 'Comments'
                 }
             },
             series: [{
@@ -135,10 +135,10 @@ var CommentBarGraph = React.createClass({
     },
 
     componentDidUpdate: function() {
-        var sixoclock = moment("2014-11-16T07:00:00-05:00");
-        var now = moment();
+        var lectureStart = moment("2014-11-16T08:00:00-05:00");
+        var lectureEnd = moment("2014-11-16T09:30:00-05:00");
 
-        var incrementsSinceStart = Math.floor(now.diff(sixoclock, 'm') / 5);
+        var incrementsSinceStart = Math.floor(lectureEnd.diff(lectureStart, 'm') / 5);
         var incrementCount = {}
         for (var i = 0; i < incrementsSinceStart; i++) {
             incrementCount[i] = 0;
@@ -146,7 +146,11 @@ var CommentBarGraph = React.createClass({
 
         this.props.data.forEach(function(comment) {
             var time = moment(comment.timestamp);
-            var increment = Math.floor(time.diff(sixoclock, 'm') / 5);
+            if (time.diff(lectureEnd) > 0) {
+                // Someone commented after the lecture ended
+                return;
+            }
+            var increment = Math.floor(time.diff(lectureStart, 'm') / 5);
             incrementCount[increment]++;
         });
 
@@ -174,7 +178,7 @@ var CommentBarGraph = React.createClass({
 
     render: function() {
         return (
-            <div id="comments-graph" style={{"width": "100%", "height": "400px"}}></div>
+            <div id="comments-graph" style={{"width": "100%", "height": "200px"}}></div>
         );
     }
 });

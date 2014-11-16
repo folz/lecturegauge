@@ -50,8 +50,14 @@ body {
 	margin-top: 10px;
 }
 
-.title{
 
-	font-family: "Times New Roman", serif;
+.navbar.navbar-default {
 
+     background-color: brown;
+}
+
+
+.navbar.navbar-default .navbar-nav > li > a, .navbar.navbar-default .navbar-brand{
+    color:white;
+    font-family: "Georgia", serif;
 }

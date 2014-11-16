@@ -155,3 +155,12 @@ button.btn .glyphicon {
 .spacerTime{
     margin-top:20px;
 }
+
+.upvote{
+    margin: 0px auto;
+    text-align: center;
+}
+
+.downvote{
+    margin: 0px auto;
+}

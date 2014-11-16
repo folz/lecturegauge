@@ -15,10 +15,12 @@ var CommentFeedbackPage = React.createClass({
         var comment = {
             'commentType': this.state.commentType,
             'text': $("textarea", evt.target).val(),
-            'timestamp': moment().format()
+            'timestamp': moment().format(),
+            'vote': 0
         };
 
         this.props.handleCommentSubmit(comment);
+
 
         this.setState(this.getInitialState());
     },
@@ -38,7 +40,6 @@ var CommentFeedbackPage = React.createClass({
                 <div className="row comment-row">
                     <div className="col-xs-12">
                     	<p><u>Feedback Box</u></p>
-                        {this.state.commentType}
                         <p></p>
                         <form className="form-horizontal" role="form" onSubmit={this.handleSubmit}>
                             <textarea className="form-control" rows="3" placeholder="Comment or ask a question..."></textarea>
@@ -80,6 +81,15 @@ var CommentFeedbackPage = React.createClass({
 });
 
 var Comment = React.createClass({
+	 handleClick: function(evt) {
+        console.log("Upvoted", evt.target.value);
+        if (evt.target.value === 'upvote'){
+        	console.log("String should upvote")
+        }
+        else{
+        	console.log("String should downvote")
+        }
+    },
     render: function() {
         var cx = React.addons.classSet;
 
@@ -100,12 +110,20 @@ var Comment = React.createClass({
         return (
             <div className="row feedback-row ">
                 <div className={classes}>
+                <button type="button" className="btn btn-primary upvote"  onClick={this.handleClick} value ="upvote">
+                	<span className="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
+            	</button>
+                 <button type="button" className="btn btn-primary downvote" onClick={this.handleClick} value = "downvote">
+                 	<span className="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
+                 </button>
+                 <p> {this.props.vote} </p>
                     <span className="sr-only">{srCommentText}</span>
                 </div>
                 <div className="col col-xs-9 boxder">
                     <p className="scrollz">{this.props.text}</p>
                     <p className="timestamp">{this.props.timestamp}</p>
                 </div>
+               
             </div>
         );
     }
@@ -192,7 +210,7 @@ var CommentList = React.createClass({
         var commentNodes = this.props.data.sort(function (a, b) {
             return moment(b.timestamp).unix() - moment(a.timestamp).unix();
         }).map(function(comment, index) {
-            return <Comment key={index} commentType={comment.commentType} text={comment.text} timestamp={comment.timestamp} />
+            return <Comment key={index} commentType={comment.commentType} text={comment.text} vote={comment.vote} timestamp={comment.timestamp} />
         });
 
         return (

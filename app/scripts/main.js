@@ -38,13 +38,38 @@ var CommentFeedbackPage = React.createClass({
                     </div>
                 </div>
 
-
                 <div className="row comment-row">
                     <div className="col-xs-12">
                         <form className="form-horizontal" role="form">
                             <textarea className="form-control" rows="3" placeholder="Enter a comment!"></textarea>
                         </form>
                     </div>
+                </div>
+            </div>
+        );
+    }
+});
+
+var Comment = React.createClass({
+    render: function() {
+        var cx = React.addons.classSet;
+
+        var classes = cx({
+            'col': true,
+            'col-xs-1': true,
+            'green-block': this.props.commentType === 'SUCCESS',
+            'yellow-block': this.props.commentType === 'WARNING',
+            'red-block': this.props.commentType === 'FAILURE'
+        });
+
+        return (
+            <div className="row feedback-row">
+                <div className={classes}>
+                    <span className="sr-only">{this.props.commentType}</span>
+                </div>
+                <div className="col col-xs-9">
+                    <p>{this.props.text}</p>
+                    <p className="timestamp">{this.props.timestamp}</p>
                 </div>
             </div>
         );
@@ -64,47 +89,10 @@ var CommentListPage = React.createClass({
                     </div>
                 </div>
 
-                <div className="row feedback-row">
-                    <div className="col col-xs-1 green-block">
-                        <span className="sr-only">I understand.</span>
-                    </div>
-                    <div className="col col-xs-9">
-                        <p>This explanation was great</p>
-                        <p className="timestamp">3:22</p>
-                    </div>
-                </div>
-
-                <div className="row feedback-row">
-                    <div className="col col-xs-1 yellow-block">
-                        <span className="sr-only">I sort of understand.</span>
-                    </div>
-                    <div className="col col-xs-9">
-                        <p>I don't fully understand this.</p>
-                        <p className="timestamp">3:47</p>
-                    </div>
-                </div>
-
-                <div className="row feedback-row">
-                    <div className="col col-xs-1 red-block">
-                        <span className="sr-only">I don't understand.</span>
-                    </div>
-                    <div clasName="col col-xs-9">
-                        <p> I have no clue what's going on.</p>
-                        <p className="timestamp">4:20</p>
-                    </div>
-                </div>
-
-                <div className="row feedback-row">
-                    <div className="col col-xs-1 green-block">
-                        <span className="sr-only">I understand.</span>
-                    </div>
-                    <div className="col col-xs-9">
-                        <p>This was really clear!</p>
-                        <p className="timestamp">5:14</p>
-                    </div>
-                </div>
-
-
+                <Comment text={"This is a comment"} timestamp={"3:22"} commentType={'SUCCESS'} />
+                <Comment text={"This is another comment"} timestamp={"3:22"} commentType={'WARNING'} />
+                <Comment text={"This is a 3rd comment"} timestamp={"3:22"} commentType={'FAILURE'} />
+                <Comment text={"This is a comment"} timestamp={"3:22"} commentType={'SUCCESS'} />
             </div>
         </div>
         );

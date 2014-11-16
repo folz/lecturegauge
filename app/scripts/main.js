@@ -20,31 +20,29 @@ var CommentFeedbackPage = React.createClass({
             <div className="row">
                 <div className="col col-xs-4">
                     <button type="button" className="btn btn-block btn-success understand-button">
-                        <span className="glyphicon glyphicon-ok-sign glyphiconDecision" aria-hidden="true"></span>
+                        <span className="glyphicon glyphicon-ok-sign" aria-hidden="true"></span>
                         <span className="sr-only">I understand.</span>
                     </button>
                 </div>
                 <div className="col col-xs-4">
                     <button type="button" className="btn btn-block btn-warning understand-button">
-                        <span className="glyphicon glyphicon-minus-sign glyphiconDecision" aria-hidden="true"></span>
+                        <span className="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>
                         <span className="sr-only">I sort of understand.</span>
                     </button>
                 </div>
                 <div className="col col-xs-4">
                     <button type="button" className="btn btn-block btn-danger understand-button">
-                        <span className="glyphicon glyphicon-remove-sign glyphiconDecision" aria-hidden="true"></span>
+                        <span className="glyphicon glyphicon-remove-sign" aria-hidden="true"></span>
                         <span className="sr-only">I don't understand.</span>
                     </button>
                 </div>
             </div>
 
 
-
             <div className="row comment-row">
                 <div className="col-xs-12">
-                <p><u>Discussion Box</u> </p>
                     <form className="form-horizontal" role="form">
-                        <textarea className="form-control" rows="3" placeholder="Comment or ask a question..."></textarea>
+                        <textarea className="form-control" rows="3" placeholder="Enter a comment!"></textarea>
                     </form>
                 </div>
             </div>

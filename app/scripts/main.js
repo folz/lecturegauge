@@ -56,8 +56,6 @@ var CommentFeedbackPage = React.createClass({
             commentBox = (
                 <div className="row comment-row">
                     <div className="col-xs-12">
-                    	<p><u>Feedback Box</u></p>
-                        <p></p>
                         <form className="form-horizontal" role="form" onSubmit={this.handleSubmit}>
                             <textarea className="form-control" rows="3" placeholder={placeholder}></textarea>
                             <button type="submit" className="btn btn-block btn-primary">{actionText}</button>

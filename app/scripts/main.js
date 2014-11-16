@@ -36,10 +36,11 @@ var CommentFeedbackPage = React.createClass({
             commentBox = (
                 <div className="row comment-row">
                     <div className="col-xs-12">
+                    	<p><u>Feedback Box</u></p>
                         {this.state.commentType}
-
+                        <p></p>
                         <form className="form-horizontal" role="form" onSubmit={this.handleSubmit}>
-                            <textarea className="form-control" rows="3" placeholder="Enter a comment!"></textarea>
+                            <textarea className="form-control" rows="3" placeholder="Comment or ask a question..."></textarea>
                             <button type="submit" className="btn btn-block btn-primary">Submit</button>
                         </form>
                     </div>
@@ -49,7 +50,7 @@ var CommentFeedbackPage = React.createClass({
 
         return (
         <div>
-            <div className="row">
+            <div className="row spacer">
                 <div className="col col-xs-4">
                     <button type="button" className="btn btn-block btn-success understand-button" onClick={this.handleClick} value="SUCCESS">
                         <span className="glyphicon glyphicon-ok-sign glyphiconDec" aria-hidden="true"></span>
@@ -94,12 +95,12 @@ var Comment = React.createClass({
         });
 
         return (
-            <div className="row feedback-row">
+            <div className="row feedback-row ">
                 <div className={classes}>
                     <span className="sr-only">{srCommentText}</span>
                 </div>
-                <div className="col col-xs-9">
-                    <p>{this.props.text}</p>
+                <div className="col col-xs-9 boxder">
+                    <p className="scrollz">{this.props.text}</p>
                     <p className="timestamp">{this.props.timestamp}</p>
                 </div>
             </div>
@@ -221,14 +222,14 @@ var App = React.createClass({
     render: function() {
         return (
             <div className="container">
-                <div className="row">
+                <div className="row spacerTime">
                     <div className="col col-xs-12 current-time">
                         <p className="text-center">11:23 a.m.</p>
                     </div>
                 </div>
 
                 <div className="row">
-                    <div className="col col-xs-12">
+                    <div className="col col-xs-12 spacerProg">
                         <div className="progress">
                             <div className="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style={{"width": "60%"}}>
                                 <span className="sr-only">60% Complete</span>

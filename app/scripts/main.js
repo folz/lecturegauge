@@ -69,7 +69,7 @@ var CommentFeedbackPage = React.createClass({
         }
 
         return (
-        <div>
+        <div className="hidden-md hidden-lg">
             <div className="row spacer">
                 <div className="col col-xs-4">
                     <button type="button" className="btn btn-block btn-success understand-button" onClick={this.handleClick} value="SUCCESS">

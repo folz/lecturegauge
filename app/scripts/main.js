@@ -67,4 +67,33 @@ $(function() {
         <App />,
         document.getElementById('app')
     );
-})
+
+
+    var commentsList = new Firebase("https://lecturegauge.firebaseio.com/").child("commentsList");
+
+    var getCurrentTime = function(){
+      var currentdate = new Date();
+      var datetime = "Last Sync: " + currentdate.getDate() + "/"
+                    + (currentdate.getMonth()+1)  + "/"
+                    + currentdate.getFullYear() + " @ "
+                    + currentdate.getHours() + ":"
+                    + currentdate.getMinutes() + ":"
+                    + currentdate.getSeconds();
+    }
+    var upVote = function(){
+      time = getCurrentTime();
+      level = "green";
+
+    }
+
+    var noVote = function(){
+     time = getCurrentTime();
+     level = "yellow";
+    }
+
+    var downVote = function(){
+      time = getCurrentTime();
+      level = "red";
+    }
+
+});

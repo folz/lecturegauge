@@ -160,13 +160,23 @@ button.btn .glyphicon {
     display: block;
     width: 400%;
 }
-.upvote{
-    margin-left: 13px;
-    margin-top:2px;
+
+.feedback-row .col-xs-1 {
+    padding-right: 0;
+    padding-left: 0;
 }
 
-.downvote{
-    margin-left: 13px;
-    margin-top:3px;
-    margin-bottom:0px;
+.btn.upvote, .btn.downvote {
+    margin: 0 auto;
+    background-color: transparent;
+    height: 40px;
+    width: 100%;
+    border-left: none;
+    border-right: none;
+    border-top: none;
+    display: block;
+}
+
+.btn.downvote {
+    border-bottom: none;
 }

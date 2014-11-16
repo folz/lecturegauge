@@ -114,11 +114,15 @@ var CommentListPage = React.createClass({
 
 var App = React.createClass({
     render: function() {
+      var display;
+      if (true) {
+        display = <CommentFeedbackPage />;
+      } else {
+        display = <CommentListPage />;
+      }
         return (
             <div>
-                <CommentFeedbackPage />
-                <CommentListPage />
-                <p>Hello, React!</p>
+            {display}
             </div>
         );
     }

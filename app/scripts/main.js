@@ -109,7 +109,9 @@ var Comment = React.createClass({
 
 var CommentList = React.createClass({
     render: function() {
-        var commentNodes = this.props.data.map(function(comment, index) {
+        var commentNodes = this.props.data.sort(function (a, b) {
+            return moment(b.timestamp).unix() - moment(a.timestamp).unix();
+        }).map(function(comment, index) {
             return <Comment key={index} commentType={comment.commentType} text={comment.text} timestamp={comment.timestamp} />
         });
 

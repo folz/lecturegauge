@@ -51,11 +51,73 @@ var CommentFeedbackPage = React.createClass({
     }
 });
 
+var CommentListPage = React.createClass({
+	render: function() {
+		return (
+			<div>
+			<div className="container">
+  <div className="row">
+       <div className="col col-xs-12 current-time">
+         <h4><p className="text-center">11:23 a.m.</p></h4>
+       </div>
+  </div>
+
+  <div className="row feedback-row">
+    <div className="col col-xs-1 green-block">
+        <span className="sr-only">I understand.</span>
+    </div>
+    <div className="col col-xs-9">
+      <p>This explanation was great</p>
+      <p className="timestamp">3:22</p>
+        </div>
+  </div>
+
+ <div className="row feedback-row">
+    <div className="col col-xs-1 yellow-block">
+        <span className="sr-only">I sort of understand.</span>
+    </div>
+    <div className="col col-xs-9">
+      <p>I don't fully understand this.</p>
+      <p className="timestamp">3:47</p>
+        </div>
+  </div>
+
+  <div className="row feedback-row">
+    <div className="col col-xs-1 red-block">
+        <span className="sr-only">I don't understand.</span>
+    </div>
+    <div clasName="col col-xs-9">
+      <p> I have no clue what's going on.</p>
+      <p className="timestamp">4:20</p>
+        </div>
+  </div>
+
+  <div className="row feedback-row">
+    <div className="col col-xs-1 green-block">
+        <span className="sr-only">I understand.</span>
+    </div>
+    <div className="col col-xs-9">
+      <p>This was really clear!</p>
+      <p className="timestamp">5:14</p>
+        </div>
+  </div>
+
+
+  </div>
+</div>
+</div>
+			);
+	}
+});
+
+
+
 var App = React.createClass({
     render: function() {
         return (
             <div>
                 <CommentFeedbackPage />
+                <CommentListPage />
                 <p>Hello, React!</p>
             </div>
         );

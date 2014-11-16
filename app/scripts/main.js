@@ -107,6 +107,78 @@ var Comment = React.createClass({
     }
 });
 
+var CommentBarGraph = React.createClass({
+    chart: null,
+
+    componentDidMount: function() {
+        this.chart = new Highcharts.Chart({
+            chart: {
+                renderTo: 'comments-graph',
+                type: 'line'
+            },
+            title: {
+                text: null
+            },
+            xAxis: {
+                categories: []
+            },
+            yAxis: {
+                title: {
+                    text: 'Fruit eaten'
+                }
+            },
+            series: [{
+                name: null,
+                data: []
+            }]
+        });
+    },
+
+    componentDidUpdate: function() {
+        var sixoclock = moment("2014-11-16T07:00:00-05:00");
+        var now = moment();
+
+        var incrementsSinceStart = Math.floor(now.diff(sixoclock, 'm') / 5);
+        var incrementCount = {}
+        for (var i = 0; i < incrementsSinceStart; i++) {
+            incrementCount[i] = 0;
+        }
+
+        this.props.data.forEach(function(comment) {
+            var time = moment(comment.timestamp);
+            var increment = Math.floor(time.diff(sixoclock, 'm') / 5);
+            incrementCount[increment]++;
+        });
+
+        var incrementBlocks = [];
+        for (var key in incrementCount) {
+            if (incrementCount.hasOwnProperty(key)) {
+                incrementBlocks.push({block: key, count: incrementCount[key]});
+            }
+        }
+        incrementBlocks = incrementBlocks.sort(function(a, b) { return a - b; });
+
+        var sortedBlocks = incrementBlocks.map(function(block) {
+            return block.key;
+        });
+
+        var sortedBlockCount = incrementBlocks.map(function(block) {
+            return block.count;
+        });
+
+        if (this.chart) {
+            this.chart.xAxis[0].setCategories(sortedBlocks);
+            this.chart.series[0].setData(sortedBlockCount);
+        }
+    },
+
+    render: function() {
+        return (
+            <div id="comments-graph" style={{"width": "100%", "height": "400px"}}></div>
+        );
+    }
+});
+
 var CommentList = React.createClass({
     render: function() {
         var commentNodes = this.props.data.sort(function (a, b) {
@@ -162,6 +234,7 @@ var App = React.createClass({
                 </div>
 
                 <CommentFeedbackPage handleCommentSubmit={this.handleCommentSubmit} />
+                <CommentBarGraph data={this.state.data} />
                 <CommentList data={this.state.data} />
             </div>
         );
@@ -173,30 +246,4 @@ $(function() {
         <App />,
         document.getElementById('app')
     );
-
-    var getCurrentTime = function(){
-      var currentdate = new Date();
-      var datetime = "Last Sync: " + currentdate.getDate() + "/"
-                    + (currentdate.getMonth()+1)  + "/"
-                    + currentdate.getFullYear() + " @ "
-                    + currentdate.getHours() + ":"
-                    + currentdate.getMinutes() + ":"
-                    + currentdate.getSeconds();
-    }
-
-    var upVote = function(){
-      time = getCurrentTime();
-      level = "green";
-
-    }
-
-    var noVote = function(){
-     time = getCurrentTime();
-     level = "yellow";
-    }
-
-    var downVote = function(){
-      time = getCurrentTime();
-      level = "red";
-    }
 });

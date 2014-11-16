@@ -161,10 +161,12 @@ button.btn .glyphicon {
     width: 400%;
 }
 .upvote{
-    margin: 0px auto;
-    text-align: center;
+    margin-left: 13px;
+    margin-top:2px;
 }
 
 .downvote{
-    margin: 0px auto;
+    margin-left: 13px;
+    margin-top:3px;
+    margin-bottom:0px;
 }

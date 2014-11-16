@@ -125,10 +125,10 @@ var Comment = React.createClass({
         return (
             <div className="row feedback-row ">
                 <div className={classes}>
-                <button type="button" className="btn btn-primary upvote"  onClick={this.handleClick} value ="upvote">
+                <button type="button" className="btn btn-default upvote"  onClick={this.handleClick} value ="upvote">
                 	<span className="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
             	</button>
-                 <button type="button" className="btn btn-primary downvote" onClick={this.handleClick} value = "downvote">
+                 <button type="button" className="btn btn-default downvote" onClick={this.handleClick} value = "downvote">
                  	<span className="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
                  </button>
                  <p> {this.props.vote} </p>

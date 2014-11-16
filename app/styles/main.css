@@ -33,6 +33,34 @@ body {
     }
 }
 
+/* Animation transitions */
+.scrollin-enter {
+    max-height: 1px;
+    opacity: 0.01;
+    overflow: hidden;
+    transition: max-height .5s ease-in, opacity .25s ease-in;
+}
+
+.scrollin-enter.scrollin-enter-active {
+    max-height: 9999px;
+    opacity: 1;
+    overflow: auto;
+}
+
+.scrollin-leave {
+    max-height: 9999px;
+    opacity: 1;
+    overflow: hidden;
+    transition: max-height .5s ease-in, opacity .25s ease-in;
+}
+
+.scrollin-leave.scrollin-leave-active {
+    max-height: 1px;
+    opacity: 0.01;
+    overflow: auto;
+}
+
+
 .understand-button {
     height: 100px;
 }

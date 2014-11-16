@@ -1,6 +1,7 @@
 /* global React */
 
 var firebaseApp = "https://lecturegauge.firebaseio.com/";
+var Animate = React.addons.CSSTransitionGroup;
 
 var CommentFeedbackPage = React.createClass({
     handleClick: function(evt) {
@@ -69,7 +70,9 @@ var CommentFeedbackPage = React.createClass({
                     </button>
                 </div>
             </div>
-            {commentBox}
+            <Animate transitionName="scrollin">
+                {commentBox}
+            </Animate>
         </div>
         );
     }

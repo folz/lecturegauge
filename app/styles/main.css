@@ -46,10 +46,15 @@ body {
 
 	}
 
-.feedback-row{
-	margin-top: 10px;
+.title{
+
+	font-family: "Times New Roman", serif;
+
 }
 
+.feedback-row {
+	margin-top: 10px;
+}
 
 .navbar.navbar-default {
 
@@ -60,4 +65,30 @@ body {
 .navbar.navbar-default .navbar-nav > li > a, .navbar.navbar-default .navbar-brand{
     color:white;
     font-family: "Georgia", serif;
+}
+
+.green-block {
+	background-color: green;
+	height: 100px;
+	margin-left: 20px;
+}
+
+.yellow-block {
+	background-color: yellow;
+	height: 100px;
+	margin-left: 20px;
+}
+
+
+.red-block {
+	background-color: red;
+	height: 100px;
+	margin-left: 20px;
+}
+
+
+.timestamp {
+	position:absolute;
+	left: 300px;
+	top: 85px;
 }

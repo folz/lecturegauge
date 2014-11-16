@@ -97,3 +97,7 @@ body {
 .glyphiconDec{
     font-size:40px;
 }
+
+button.btn .glyphicon {
+    pointer-events: none;
+}

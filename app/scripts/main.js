@@ -1,38 +1,75 @@
 /* global React */
 
+var firebaseApp = "https://lecturegauge.firebaseio.com/";
+
 var CommentFeedbackPage = React.createClass({
+    handleClick: function(evt) {
+        console.log("Updating commentType to", evt.target.value);
+        this.setState({'commentType': evt.target.value});
+    },
+
+    handleSubmit: function(evt){
+        evt.preventDefault();
+
+        var comment = {
+            'commentType': this.state.commentType,
+            'text': $("textarea", evt.target).val(),
+            'timestamp': moment().format()
+        };
+
+        this.props.handleCommentSubmit(comment);
+
+        this.setState(this.getInitialState());
+    },
+
+    getInitialState: function() {
+        return {
+            'text': null,
+            'commentType': null,
+            'timestamp': null
+        };
+    },
+
     render: function() {
+        var commentBox;
+        if (this.state.commentType !== null) {
+            commentBox = (
+                <div className="row comment-row">
+                    <div className="col-xs-12">
+                        {this.state.commentType}
+
+                        <form className="form-horizontal" role="form" onSubmit={this.handleSubmit}>
+                            <textarea className="form-control" rows="3" placeholder="Enter a comment!"></textarea>
+                            <button type="submit" className="btn btn-block btn-primary">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            );
+        }
+
         return (
         <div>
             <div className="row">
                 <div className="col col-xs-4">
-                    <button type="button" className="btn btn-block btn-success understand-button">
+                    <button type="button" className="btn btn-block btn-success understand-button" onClick={this.handleClick} value="SUCCESS">
                         <span className="glyphicon glyphicon-ok-sign glyphiconDec" aria-hidden="true"></span>
                         <span className="sr-only">I understand.</span>
                     </button>
                 </div>
                 <div className="col col-xs-4">
-                    <button type="button" className="btn btn-block btn-warning understand-button">
+                    <button type="button" className="btn btn-block btn-warning understand-button" onClick={this.handleClick} value="WARNING">
                         <span className="glyphicon glyphicon-minus-sign glyphiconDec" aria-hidden="true"></span>
                         <span className="sr-only">I sort of understand.</span>
                     </button>
                 </div>
                 <div className="col col-xs-4">
-                    <button type="button" className="btn btn-block btn-danger understand-button">
+                    <button type="button" className="btn btn-block btn-danger understand-button" onClick={this.handleClick} value="FAILURE">
                         <span className="glyphicon glyphicon-remove-sign glyphiconDec" aria-hidden="true"></span>
                         <span className="sr-only">I don't understand.</span>
                     </button>
                 </div>
             </div>
-
-
-            <div className="row comment-row">
-                <div className="col-xs-12">
-                    <form className="form-horizontal" role="form">
-                        <textarea className="form-control" rows="3" placeholder="Enter a comment!"></textarea>
-                    </form>
-                </div>
-            </div>
+            {commentBox}
         </div>
         );
     }
@@ -72,18 +109,37 @@ var Comment = React.createClass({
 
 var CommentList = React.createClass({
     render: function() {
+        var commentNodes = this.props.data.map(function(comment, index) {
+            return <Comment key={index} commentType={comment.commentType} text={comment.text} timestamp={comment.timestamp} />
+        });
+
         return (
         <div>
-            <Comment commentType={'SUCCESS'} text={"This makes sense to me."} timestamp={"3:32"} />
-            <Comment commentType={'FAILURE'} text={"How do I initialize Firebase?"} timestamp={"3:41"} />
-            <Comment commentType={'WARNING'} text={"So I just make new CSS classes when I want to change things?"} timestamp={"4:01"} />
-            <Comment commentType={'WARNING'} text={"This makes sense to me."} timestamp={"4:17"} />
+            {commentNodes}
         </div>
         );
     }
 });
 
 var App = React.createClass({
+    mixins: [ReactFireMixin],
+
+    handleCommentSubmit: function(comment) {
+        var comments = this.state.data;
+        comments.push(comment);
+        this.setState(comments);
+
+        this.firebaseRefs["data"].push(comment);
+    },
+
+    getInitialState: function() {
+        return {'data': []};
+    },
+
+    componentWillMount: function() {
+        this.bindAsArray(new Firebase(firebaseApp + "comments"), "data");
+    },
+
     render: function() {
         return (
             <div className="container">
@@ -103,8 +159,8 @@ var App = React.createClass({
                     </div>
                 </div>
 
-                <CommentFeedbackPage />
-                <CommentList />
+                <CommentFeedbackPage handleCommentSubmit={this.handleCommentSubmit} />
+                <CommentList data={this.state.data} />
             </div>
         );
     }
@@ -116,9 +172,6 @@ $(function() {
         document.getElementById('app')
     );
 
-
-    var commentsList = new Firebase("https://lecturegauge.firebaseio.com/").child("commentsList");
-
     var getCurrentTime = function(){
       var currentdate = new Date();
       var datetime = "Last Sync: " + currentdate.getDate() + "/"
@@ -128,6 +181,7 @@ $(function() {
                     + currentdate.getMinutes() + ":"
                     + currentdate.getSeconds();
     }
+
     var upVote = function(){
       time = getCurrentTime();
       level = "green";
@@ -143,5 +197,4 @@ $(function() {
       time = getCurrentTime();
       level = "red";
     }
-
 });

@@ -5,8 +5,8 @@ var firebaseApp = "https://lecturegauge.firebaseio.com/";
 var cx = React.addons.classSet;
 var Animate = React.addons.CSSTransitionGroup;
 
-var lectureStart = moment("2014-11-16T12:30:00-05:00");
-var lectureEnd = moment("2014-11-16T14:00:00-05:00");
+var lectureStart = moment("2014-11-16T13:00:00-05:00");
+var lectureEnd = moment("2014-11-16T15:00:00-05:00");
 
 var CommentFeedbackPage = React.createClass({
     handleClick: function(evt) {
@@ -308,7 +308,7 @@ var CommentBarGraph = React.createClass({
 
     render: function() {
         return (
-            <div id="comments-graph" style={{"width": "100%", "height": "200px"}}></div>
+            <div id="comments-graph" className="hidden-xs hidden-sm" style={{"width": "100%", "height": "200px"}}></div>
         );
     }
 });
@@ -319,10 +319,15 @@ var CommentList = React.createClass({
             return moment(b.timestamp).unix() - moment(a.timestamp).unix();
         }).map(function(comment, index) {
             return <Comment handleUpvote={this.props.handleUpvote} key={index} idx={index} data={comment} />
-        }.bind(this)    );
+        }.bind(this));
 
         return (
         <div>
+            <div className="hidden-xs hidden-sm">
+                <button type="button" className="btn btn-info" onClick={this.props.hidePastQuestions}>Hide past questions.</button>
+                <p></p>
+            </div>
+
             {commentNodes}
         </div>
         );
@@ -369,6 +374,10 @@ var App = React.createClass({
         commentRef.update(comment);
     },
 
+    hidePastQuestions: function() {
+        this.setState(this.getInitialState());
+    },
+
     handleUpvote: function(comment) {
         console.log(comment);
 
@@ -407,7 +416,7 @@ var App = React.createClass({
 
                 <CommentFeedbackPage handleCommentSubmit={this.handleCommentSubmit} />
                 <CommentBarGraph data={this.state.data} />
-                <CommentList handleUpvote={this.handleUpvote} data={this.state.data} />
+                <CommentList hidePastQuestions={this.hidePastQuestions} handleUpvote={this.handleUpvote} data={this.state.data} />
             </div>
         );
     }
